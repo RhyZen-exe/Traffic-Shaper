@@ -1,8 +1,0 @@
-interface: wlan0 
-leases_file: /var/lib/misc/dnsmasq.leases
-database: data/network.db 
-default_limit: 
-    down: 1024
-    up: 512
-role: operator
-verbose: true
