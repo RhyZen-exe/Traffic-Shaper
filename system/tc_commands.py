@@ -1,5 +1,3 @@
-import sys
-
 from system.executor import ExecResult, run
 
 

@@ -29,5 +29,4 @@ def install_handlers(iface: str) -> None:
     _iface = iface
     signal.signal(signal.SIGINT, _on_signal)
     signal.signal(signal.SIGTERM, _on_signal)
-    atexit.register(_do_cleanup)
     logger.info("Обработчики установлены для %s", iface)

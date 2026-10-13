@@ -15,7 +15,7 @@ def run(cmd: list[str], timeout: int = 5, cwd: str | None = None) -> ExecResult:
     my_env = os.environ.copy()
     my_env["LC_ALL"] = "C"
     my_env["LANGUAGE"] = "C"
-    my_env["PATH"] = my_env.get("PATH", "") + "/usr/sbin:/sbin:"
+    my_env["PATH"] = "/usr/sbin:/sbin:" + my_env.get("PATH", "")
 
     try:
         r = subprocess.run(
