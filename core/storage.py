@@ -51,13 +51,13 @@ def add_device(conn, ip, mac, hostname):
         return False
 
 
-def list_device(conn):
+def list_devices(conn):
     cur = conn.cursor()
     cur.execute("SELECT id, ip, mac, hostname, status FROM devices")
     rows = cur.fetchall()
     return rows
 
-def update_devices(conn, ip, hostname=None, mac=None, vendor=None):
+def update_device(conn, ip, hostname=None, mac=None, vendor=None):
     fields = []
     values = []
 
