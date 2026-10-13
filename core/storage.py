@@ -1,6 +1,7 @@
 import json
 import sqlite3
 from pathlib import Path
+from datetime import datetime
 
 
 def get_connection(db_path):
@@ -56,6 +57,52 @@ def list_devices(conn):
     rows = cur.fetchall()
     return rows
 
+def update_devices(conn, ip, hostname=None, mac=None, vendor=None):
+    fields = []
+    values = []
+
+    if hostname is not None:
+        fields.append("hostname = ?")
+        values.append(hostname)
+
+    if mac is not None:
+        fields.append("mac = ?")
+        values.append(mac)
+
+    if vendor is not None:
+        fields.append("vendor = ?")
+        values.append(vendor)
+
+    if not fields:
+        return False
+
+    values.append(ip)
+    sql = f"UPDATE devices SET {', '.join(fields)} WHERE ip = ?"
+
+    cur = conn.cursor()
+    cur.execute(sql, values)
+    conn.commit()
+    return cur.rowcount > 0
+
+
+def add_rule(conn, device_ip, action, down=None, up=None):
+    
+    created_at = datetime.now().isoformat()
+
+    cur = conn.cursor()
+    cur.execute(
+        "INSERT INTO rules (device_ip, action, down, up, created_at) VALUES (?, ?, ?, ?, ?)",
+        (device_ip, action, down, up, created_at)
+    )
+    conn.commit()
+    return cur.lastrowid
+
+
+def list_rules(conn):
+    cur = conn.cursor()
+    cur.execute("SELECT id, device_ip, action, down, up, created_at FROM rules")
+    rows = cur.fetchall()
+    return rows
 
 def export_rules(conn, path):
     cur = conn.cursor()
