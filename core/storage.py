@@ -1,5 +1,5 @@
-import sqlite3
 import json
+import sqlite3
 from pathlib import Path
 
 
@@ -7,7 +7,7 @@ def get_connection(db_path):
     Path(db_path).parent.mkdir(parents=True, exist_ok=True)
     conn = sqlite3.connect(db_path)
     conn.row_factory = sqlite3.Row
-    return conn 
+    return conn
 
 
 def create_tables(conn):
@@ -36,23 +36,26 @@ def create_tables(conn):
     """)
     conn.commit()
 
+
 def add_device(conn, ip, mac, hostname):
     cur = conn.cursor()
     try:
         cur.execute(
             "INSERT INTO devices (ip, mac, hostname) VALUES (?, ?, ?)",
-            (ip, mac, hostname)
+            (ip, mac, hostname),
         )
         conn.commit()
-        return True 
+        return True
     except sqlite3.IntegrityError:
         return False
+
 
 def list_devices(conn):
     cur = conn.cursor()
     cur.execute("SELECT id, ip, mac, hostname, status FROM devices")
     rows = cur.fetchall()
-    return rows 
+    return rows
+
 
 def export_rules(conn, path):
     cur = conn.cursor()
