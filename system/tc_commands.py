@@ -29,5 +29,25 @@ def add_loss(iface: str, percent: int) -> ExecResult:
     )
 
 
+def add_limit(iface: str, kbps: int) -> ExecResult:
+    return run(
+        [
+            "tc",
+            "qdisc",
+            "add",
+            "dev",
+            iface,
+            "root",
+            "tbf",
+            "rate",
+            f"{kbps}kbit",
+            "burst",
+            "32kbit",
+            "latency",
+            "400ms",
+        ]
+    )
+
+
 def remove_root(iface: str) -> ExecResult:
     return run(["tc", "qdisc", "del", "dev", iface, "root"])
