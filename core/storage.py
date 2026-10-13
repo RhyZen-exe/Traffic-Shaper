@@ -51,7 +51,7 @@ def add_device(conn, ip, mac, hostname):
         return False
 
 
-def list_devices(conn):
+def list_device(conn):
     cur = conn.cursor()
     cur.execute("SELECT id, ip, mac, hostname, status FROM devices")
     rows = cur.fetchall()
