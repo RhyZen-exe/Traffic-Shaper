@@ -45,9 +45,3 @@ def reset(iface: str) -> None:
     if not r.ok:
         raise RuntimeError(f"tc не смог: {r.err}")
     logger.info("Сброшены правила на %s", iface)
-
-
-if __name__ == "__main__":
-    logging.basicConfig(level=logging.INFO)
-    iface = "wlp4s0"
-    apply_limit(iface, 1000)
