@@ -32,7 +32,7 @@ def find_processes(name: str) -> dict:
     for proc in psutil.process_iter(["pid", "name"]):
         if proc.info["name"] == name:
             found.append(proc.info)
-        return {"success": True, "count": len(found), "processes": found}
+    return {"success": True, "count": len(found), "processes": found}
 
 def trace_process(cmd: list[str], timeout: int = 5) -> dict:
     if platform.system() == "Linux":
